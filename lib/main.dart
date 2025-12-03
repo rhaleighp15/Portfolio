@@ -2,17 +2,17 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/* ───────────────────── PALETTE (HOWL BEDROOM VIBE) ───────────────────── */
+/* ───────────────────── PALETTE – HOWL BEDROOM VIBE ───────────────────── */
 
-const Color kBg = Color(0xFFF6EFE5); // warm parchment wall
-const Color kText = Color(0xFF1E1410); // ink brown
-const Color kDeepGreen = Color(0xFF243B53); // deep blue-teal (night shelves)
-const Color kLeaf = Color(0xFF2A9D8F); // teal green (plants / bottles)
-const Color kSoftGreen = Color(0xFFDDEBE4); // misty sage
-const Color kSun = Color(0xFFF4A261); // warm amber light
-
-const Color kBlush = Color(0xFFE9C5D0); // dried-rose pink
-const Color kNight = Color(0xFF1B1D36); // deep night accent
+const Color kBg = Color(0xFF18190C);        // deep olive background
+const Color kText = Color(0xFF24160B);      // warm ink brown
+const Color kDeepGreen = Color(0xFF273417); // shadowy moss
+const Color kLeaf = Color(0xFF6B8F3A);      // bright mossy green
+const Color kSoftGreen = Color(0xFF3B4F22); // muted mid-green
+const Color kSun = Color(0xFFCFAF5B);       // antique gold
+const Color kParchment = Color(0xFFF3E4C6); // parchment surface
+const Color kTeal = Color(0xFF2D7A6A);      // bottle teal
+const Color kRose = Color(0xFFB4575E);      // dusty ruby
 
 void main() {
   runApp(const PortfolioApp());
@@ -28,33 +28,34 @@ class PortfolioApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         scaffoldBackgroundColor: kBg,
         textTheme: GoogleFonts.nunitoTextTheme().apply(
           bodyColor: kText,
           displayColor: kText,
         ),
-        colorScheme: const ColorScheme.light(
+        colorScheme: ColorScheme.dark(
           primary: kLeaf,
           secondary: kSun,
-          surface: Colors.white,
+          surface: kParchment,
+          background: kBg,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: kDeepGreen,
+            backgroundColor: kLeaf,
             foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(999),
             ),
-            elevation: 4,
-            shadowColor: kDeepGreen.withOpacity(0.35),
+            elevation: 6,
+            shadowColor: kLeaf.withOpacity(0.6),
           ),
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
-            foregroundColor: kDeepGreen,
-            side: const BorderSide(color: kDeepGreen),
+            foregroundColor: kParchment,
+            side: BorderSide(color: kParchment.withOpacity(0.9)),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(999),
@@ -62,6 +63,8 @@ class PortfolioApp extends StatelessWidget {
           ),
         ),
         chipTheme: ChipThemeData(
+          backgroundColor: kSoftGreen,
+          labelStyle: const TextStyle(color: Colors.white),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(999),
           ),
@@ -117,7 +120,7 @@ class PortfolioPage extends StatelessWidget {
   }
 }
 
-/* ───────────────────── TOP NAV (TAPED SKETCHBOOK BAR) ───────────────────── */
+/* ───────────────────── TOP NAV – TAPED PANEL ───────────────────── */
 
 class _TopNav extends StatelessWidget {
   final bool isWide;
@@ -134,16 +137,23 @@ class _TopNav extends StatelessWidget {
             height: 80,
             child: Stack(
               children: [
-                // Washi tape pieces
                 const Positioned(
                   top: 0,
                   left: 40,
-                  child: _TapePiece(width: 80, height: 16, rotation: -0.06),
+                  child: _TapePiece(
+                    width: 80,
+                    height: 16,
+                    rotation: -0.07,
+                  ),
                 ),
                 const Positioned(
                   top: 4,
                   right: 60,
-                  child: _TapePiece(width: 68, height: 16, rotation: 0.08),
+                  child: _TapePiece(
+                    width: 68,
+                    height: 16,
+                    rotation: 0.05,
+                  ),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -153,14 +163,16 @@ class _TopNav extends StatelessWidget {
                       vertical: 12,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.96),
+                      color: kParchment.withOpacity(0.96),
                       borderRadius: BorderRadius.circular(18),
-                      border: Border.all(color: kBg.withOpacity(0.9)),
+                      border: Border.all(
+                        color: kSun.withOpacity(0.3),
+                      ),
                       boxShadow: [
                         BoxShadow(
-                          color: kDeepGreen.withOpacity(0.12),
-                          blurRadius: 24,
-                          offset: const Offset(0, 14),
+                          color: Colors.black.withOpacity(0.45),
+                          blurRadius: 28,
+                          offset: const Offset(0, 18),
                         ),
                       ],
                     ),
@@ -176,14 +188,14 @@ class _TopNav extends StatelessWidget {
                                 color: kSoftGreen,
                                 borderRadius: BorderRadius.circular(14),
                                 border: Border.all(
-                                  color: kLeaf.withOpacity(0.5),
+                                  color: kSun.withOpacity(0.7),
                                   width: 1.2,
                                 ),
                               ),
                               child: const Icon(
-                                Icons.auto_awesome_rounded,
+                                Icons.auto_awesome,
                                 size: 20,
-                                color: kDeepGreen,
+                                color: kSun,
                               ),
                             ),
                             const SizedBox(width: 10),
@@ -195,14 +207,14 @@ class _TopNav extends StatelessWidget {
                                   style: GoogleFonts.cormorantGaramond(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w700,
-                                    color: kText,
+                                    color: kDeepGreen,
                                   ),
                                 ),
                                 Text(
                                   'UI/UX • Visual storyteller',
                                   style: GoogleFonts.nunito(
                                     fontSize: 11,
-                                    color: kText.withOpacity(0.65),
+                                    color: kDeepGreen.withOpacity(0.7),
                                   ),
                                 ),
                               ],
@@ -251,7 +263,7 @@ class _TapePiece extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: kBlush.withOpacity(0.7),
+          color: kRose.withOpacity(0.7),
           borderRadius: BorderRadius.circular(4),
         ),
       ),
@@ -282,7 +294,7 @@ class _NavItemState extends State<_NavItem> {
         margin: const EdgeInsets.symmetric(horizontal: 4),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
-          color: _hovering ? kSoftGreen.withOpacity(0.95) : Colors.transparent,
+          color: _hovering ? kSoftGreen.withOpacity(0.9) : Colors.transparent,
           borderRadius: BorderRadius.circular(999),
         ),
         child: Row(
@@ -291,9 +303,9 @@ class _NavItemState extends State<_NavItem> {
               opacity: _hovering ? 1 : 0,
               duration: const Duration(milliseconds: 160),
               child: const Icon(
-                Icons.auto_awesome_rounded, // or Icons.star_rounded
+                Icons.star,
                 size: 14,
-                color: kLeaf,
+                color: kSun,
               ),
             ),
             if (_hovering) const SizedBox(width: 4),
@@ -303,7 +315,8 @@ class _NavItemState extends State<_NavItem> {
                 fontSize: 12,
                 letterSpacing: 1.2,
                 fontWeight: FontWeight.w600,
-                color: _hovering ? kDeepGreen : kText.withOpacity(0.72),
+                color:
+                    _hovering ? kParchment : kDeepGreen.withOpacity(0.8),
               ),
             ),
           ],
@@ -333,7 +346,7 @@ class _HeroSectionState extends State<_HeroSection>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 8),
+      duration: const Duration(seconds: 9),
     )..repeat(reverse: true);
     _floatAnim = CurvedAnimation(
       parent: _controller,
@@ -387,14 +400,16 @@ class _HeroSectionState extends State<_HeroSection>
 class _HeroContent extends StatelessWidget {
   final bool isWide;
   final double floatValue;
-  const _HeroContent({required this.isWide, required this.floatValue});
+  const _HeroContent({
+    required this.isWide,
+    required this.floatValue,
+  });
 
   @override
   Widget build(BuildContext context) {
     final left = Column(
-      crossAxisAlignment: isWide
-          ? CrossAxisAlignment.start
-          : CrossAxisAlignment.center,
+      crossAxisAlignment:
+          isWide ? CrossAxisAlignment.start : CrossAxisAlignment.center,
       children: [
         Text(
           'UI / UX DESIGNER',
@@ -402,7 +417,7 @@ class _HeroContent extends StatelessWidget {
             fontSize: 13,
             letterSpacing: 5,
             fontWeight: FontWeight.w700,
-            color: kLeaf,
+            color: kSun,
           ),
         ),
         const SizedBox(height: 12),
@@ -412,11 +427,11 @@ class _HeroContent extends StatelessWidget {
             fontSize: isWide ? 64 : 46,
             fontWeight: FontWeight.w700,
             letterSpacing: 3,
-            color: kDeepGreen,
+            color: kParchment,
             shadows: [
               Shadow(
-                blurRadius: 14,
-                color: kSun.withOpacity(0.55),
+                blurRadius: 18,
+                color: kSun.withOpacity(0.9),
                 offset: const Offset(0, 6),
               ),
             ],
@@ -424,13 +439,13 @@ class _HeroContent extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Text(
-          'Soft, story-driven interfaces inspired by cozy studios and magic-filled bedrooms.\n'
-          'I design flows that feel warm, thoughtful, and quietly enchanting.',
+          'Interfaces that feel like a magical bedroom full of trinkets — cozy, cluttered in the right way,\n'
+          'but still clear, usable, and calm. I love building flows that quietly guide people through complex tasks.',
           textAlign: isWide ? TextAlign.left : TextAlign.center,
           style: GoogleFonts.nunito(
             fontSize: 14,
             height: 1.8,
-            color: kText.withOpacity(0.9),
+            color: kParchment.withOpacity(0.88),
           ),
         ),
         const SizedBox(height: 22),
@@ -449,7 +464,7 @@ class _HeroContent extends StatelessWidget {
               onPressed: () {
                 // TODO: open CV link
               },
-              icon: const Icon(Icons.description_rounded),
+              icon: const Icon(Icons.description),
               label: const Text('Download CV'),
             ),
           ],
@@ -474,28 +489,32 @@ class _HeroContent extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(32),
         gradient: const LinearGradient(
-          colors: [kBg, kBlush, kSoftGreen],
+          colors: [
+            Color(0xFF1E2210),
+            Color(0xFF303B1C),
+            Color(0xFF2B3530),
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         boxShadow: [
           BoxShadow(
-            color: kDeepGreen.withOpacity(0.18),
-            blurRadius: 40,
-            offset: const Offset(0, 26),
+            color: Colors.black.withOpacity(0.6),
+            blurRadius: 50,
+            offset: const Offset(0, 30),
           ),
         ],
       ),
       child: Stack(
         children: [
-          // floating charms / sparkles
+          // floating charms / trinkets
           _FloatingCharm(
-            top: 12,
+            top: 10,
             left: 40,
             progress: floatValue,
             travel: 10,
             phase: 0.0,
-            icon: Icons.star_rounded,
+            icon: Icons.star,
             size: 16,
             color: kSun,
           ),
@@ -504,10 +523,10 @@ class _HeroContent extends StatelessWidget {
             right: 80,
             progress: floatValue,
             travel: 8,
-            phase: 0.3,
+            phase: 0.35,
             icon: Icons.circle,
             size: 10,
-            color: kLeaf,
+            color: kTeal,
           ),
           _FloatingCharm(
             bottom: 24,
@@ -515,9 +534,9 @@ class _HeroContent extends StatelessWidget {
             progress: floatValue,
             travel: 12,
             phase: 0.6,
-            icon: Icons.star_outline_rounded,
+            icon: Icons.diamond,
             size: 18,
-            color: kDeepGreen,
+            color: kRose,
           ),
           _FloatingCharm(
             top: 90,
@@ -525,11 +544,10 @@ class _HeroContent extends StatelessWidget {
             progress: floatValue,
             travel: 9,
             phase: 0.9,
-            icon: Icons.diamond_rounded,
-            size: 14,
-            color: kBlush,
+            icon: Icons.circle,
+            size: 12,
+            color: kLeaf,
           ),
-          // actual content
           isWide
               ? Row(
                   children: [
@@ -538,7 +556,13 @@ class _HeroContent extends StatelessWidget {
                     Expanded(child: right),
                   ],
                 )
-              : Column(children: [right, const SizedBox(height: 24), left]),
+              : Column(
+                  children: [
+                    right,
+                    const SizedBox(height: 24),
+                    left,
+                  ],
+                ),
         ],
       ),
     );
@@ -575,7 +599,7 @@ class _FloatingCharm extends StatelessWidget {
     final double angle = (progress + phase) * 2 * math.pi;
     final double dy = math.sin(angle) * travel;
     final double opacity =
-        0.5 + 0.4 * (math.sin(angle) * 0.5 + 0.5); // soft shimmer
+        0.4 + 0.5 * (math.sin(angle) * 0.5 + 0.5); // soft shimmer
 
     return Positioned(
       top: top != null ? top! + dy : null,
@@ -584,7 +608,11 @@ class _FloatingCharm extends StatelessWidget {
       bottom: bottom != null ? bottom! - dy : null,
       child: Opacity(
         opacity: opacity,
-        child: Icon(icon, size: size, color: color.withOpacity(0.9)),
+        child: Icon(
+          icon,
+          size: size,
+          color: color.withOpacity(0.95),
+        ),
       ),
     );
   }
@@ -598,10 +626,10 @@ class _HeroTag extends StatelessWidget {
   Widget build(BuildContext context) {
     return Chip(
       label: Text(label, style: const TextStyle(fontSize: 11)),
-      backgroundColor: Colors.white,
+      backgroundColor: kSoftGreen,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(999),
-        side: const BorderSide(color: kLeaf),
+        side: BorderSide(color: kSun.withOpacity(0.8)),
       ),
     );
   }
@@ -625,11 +653,15 @@ class _HeroIllustrationCard extends StatelessWidget {
               gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [kNight, kDeepGreen, kLeaf],
+                colors: [
+                  Color(0xFF2A3019),
+                  Color(0xFF40311C),
+                  Color(0xFF283438),
+                ],
               ),
               boxShadow: [
                 BoxShadow(
-                  color: kNight.withOpacity(0.35),
+                  color: Colors.black.withOpacity(0.7),
                   blurRadius: 30,
                   offset: const Offset(0, 18),
                 ),
@@ -642,11 +674,11 @@ class _HeroIllustrationCard extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(22),
-                  color: Colors.white.withOpacity(0.96),
+                  color: kParchment.withOpacity(0.96),
                 ),
                 child: Stack(
                   children: [
-                    // distant hill / shelves
+                    // headboard-ish hill of green
                     Positioned(
                       bottom: -40,
                       left: -20,
@@ -663,7 +695,7 @@ class _HeroIllustrationCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // glowing orb (like a small Calcifer vibe)
+                    // warm glowing orb
                     Positioned(
                       top: 24,
                       left: 26,
@@ -675,7 +707,7 @@ class _HeroIllustrationCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(56),
                           boxShadow: [
                             BoxShadow(
-                              color: kSun.withOpacity(0.6),
+                              color: kSun.withOpacity(0.7),
                               blurRadius: 22,
                               spreadRadius: 4,
                             ),
@@ -683,6 +715,7 @@ class _HeroIllustrationCard extends StatelessWidget {
                         ),
                       ),
                     ),
+                    // hanging small dots
                     const _SpiritDot(top: 40, right: 40),
                     const _SpiritDot(top: 80, right: 80),
                     const _SpiritDot(bottom: 60, left: 80),
@@ -694,9 +727,9 @@ class _HeroIllustrationCard extends StatelessWidget {
                             radius: 42,
                             backgroundColor: kBg,
                             child: Icon(
-                              Icons.person_rounded,
+                              Icons.person,
                               size: 44,
-                              color: kDeepGreen,
+                              color: kParchment,
                             ),
                           ),
                           const SizedBox(height: 12),
@@ -704,14 +737,14 @@ class _HeroIllustrationCard extends StatelessWidget {
                             'Place your illustration here',
                             style: GoogleFonts.nunito(
                               fontSize: 12,
-                              color: kText.withOpacity(0.8),
+                              color: kDeepGreen.withOpacity(0.85),
                             ),
                           ),
                           Text(
-                            'Ghibli-style avatar or bedroom scene',
+                            'Howl-inspired bedroom / avatar',
                             style: GoogleFonts.nunito(
                               fontSize: 11,
-                              color: kText.withOpacity(0.6),
+                              color: kDeepGreen.withOpacity(0.65),
                             ),
                           ),
                         ],
@@ -795,7 +828,7 @@ class _SectionTitle extends StatelessWidget {
           style: GoogleFonts.nunito(
             fontSize: 13,
             letterSpacing: 3,
-            color: kText.withOpacity(0.6),
+            color: kParchment.withOpacity(0.7),
           ),
         ),
         const SizedBox(height: 4),
@@ -804,7 +837,7 @@ class _SectionTitle extends StatelessWidget {
           style: GoogleFonts.cormorantGaramond(
             fontSize: 26,
             fontWeight: FontWeight.w600,
-            color: kDeepGreen,
+            color: kParchment,
           ),
         ),
         const SizedBox(height: 14),
@@ -830,16 +863,20 @@ class _AboutSection extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: kParchment,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: kSoftGreen.withOpacity(0.9)),
+            border: Border.all(color: kSun.withOpacity(0.4)),
           ),
           child: Text(
             'I’m a student UI/UX designer who enjoys turning messy ideas into clear, story-driven interfaces.\n'
-            'My work pulls from animation, bookshelves, plants, and soft lighting — but always stays focused on\n'
+            'My work pulls from animation, cluttered shelves, and soft lighting — but always stays grounded in\n'
             'usability and calm flows. I’m looking for an internship where I can support product teams with\n'
             'wireframes, prototypes, and design systems while learning from kind mentors.',
-            style: GoogleFonts.nunito(fontSize: 13, height: 1.7, color: kText),
+            style: GoogleFonts.nunito(
+              fontSize: 13,
+              height: 1.7,
+              color: kText,
+            ),
           ),
         ),
       ],
@@ -854,8 +891,10 @@ void _showProjectDialog(BuildContext context, ProjectCardData data) {
     context: context,
     builder: (context) {
       return Dialog(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        backgroundColor: kParchment,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 650),
           child: Padding(
@@ -902,11 +941,8 @@ void _showProjectDialog(BuildContext context, ProjectCardData data) {
                     children: data.tags
                         .map(
                           (t) => Chip(
-                            label: Text(
-                              t,
-                              style: const TextStyle(fontSize: 11),
-                            ),
-                            backgroundColor: kBg,
+                            label: Text(t, style: const TextStyle(fontSize: 11)),
+                            backgroundColor: kSoftGreen,
                           ),
                         )
                         .toList(),
@@ -927,7 +963,7 @@ void _showProjectDialog(BuildContext context, ProjectCardData data) {
                       onPressed: () {
                         // TODO: Use url_launcher to open data.caseStudyUrl
                       },
-                      icon: const Icon(Icons.open_in_new_rounded),
+                      icon: const Icon(Icons.open_in_new),
                       label: const Text('Open full case study'),
                     )
                   else
@@ -1008,7 +1044,8 @@ class _ProjectsSection extends StatelessWidget {
                           : constraints.maxWidth,
                       child: TweenAnimationBuilder<double>(
                         tween: Tween(begin: 0, end: 1),
-                        duration: Duration(milliseconds: 500 + entry.key * 120),
+                        duration:
+                            Duration(milliseconds: 500 + entry.key * 120),
                         curve: Curves.easeOutCubic,
                         builder: (context, value, child) {
                           return Opacity(
@@ -1075,9 +1112,9 @@ class ProjectCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: kParchment,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: kSoftGreen.withOpacity(0.9)),
+        border: Border.all(color: kSun.withOpacity(0.4)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1107,7 +1144,7 @@ class ProjectCard extends StatelessWidget {
                 .map(
                   (t) => Chip(
                     label: Text(t, style: const TextStyle(fontSize: 11)),
-                    backgroundColor: kBg,
+                    backgroundColor: kSoftGreen,
                   ),
                 )
                 .toList(),
@@ -1190,9 +1227,9 @@ class _TimelineTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: kParchment,
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: kSoftGreen.withOpacity(0.9)),
+          border: Border.all(color: kSun.withOpacity(0.4)),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1294,9 +1331,9 @@ class _SkillGroup extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: kParchment,
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: kSoftGreen.withOpacity(0.9)),
+            border: Border.all(color: kSun.withOpacity(0.4)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1317,7 +1354,7 @@ class _SkillGroup extends StatelessWidget {
                     .map(
                       (i) => Chip(
                         label: Text(i, style: const TextStyle(fontSize: 11)),
-                        backgroundColor: kBg,
+                        backgroundColor: kSoftGreen,
                       ),
                     )
                     .toList(),
@@ -1340,13 +1377,16 @@ class _ContactSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const _SectionTitle(label: 'Contact', tagline: 'Let’s work together.'),
+        const _SectionTitle(
+          label: 'Contact',
+          tagline: 'Let’s work together.',
+        ),
         Container(
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: kParchment,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: kSoftGreen.withOpacity(0.9)),
+            border: Border.all(color: kSun.withOpacity(0.4)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1365,15 +1405,15 @@ class _ContactSection extends StatelessWidget {
                 runSpacing: 8,
                 children: const [
                   _ContactChip(
-                    icon: Icons.email_rounded,
+                    icon: Icons.email,
                     label: 'youremail@example.com',
                   ),
                   _ContactChip(
-                    icon: Icons.link_rounded,
+                    icon: Icons.link,
                     label: 'Behance / Dribbble / Portfolio link',
                   ),
                   _ContactChip(
-                    icon: Icons.location_on_rounded,
+                    icon: Icons.location_on,
                     label: 'Your City, Country',
                   ),
                 ],
@@ -1387,7 +1427,7 @@ class _ContactSection extends StatelessWidget {
             '© ${DateTime.now().year} Your Name • UI/UX & Illustration',
             style: GoogleFonts.nunito(
               fontSize: 11,
-              color: kText.withOpacity(0.6),
+              color: kParchment.withOpacity(0.7),
             ),
           ),
         ),
@@ -1406,7 +1446,7 @@ class _ContactChip extends StatelessWidget {
     return Chip(
       avatar: Icon(icon, size: 16, color: kLeaf),
       label: Text(label, style: const TextStyle(fontSize: 11)),
-      backgroundColor: kBg,
+      backgroundColor: kSoftGreen,
     );
   }
 }
