@@ -1434,36 +1434,39 @@ class _CertificationsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final certs = [
       _CertificationItem(
-        title: 'UI/UX Design Foundations (Online Course)',
-        issuer: 'Coursera / Placeholder',
-        year: '2023',
+        title: 'IT Specialist – HTML and CSS',
+        issuer: 'Certiport',
+        year: '2025',
         details:
-            'Completed training in wireframing, prototyping, basic usability principles, and interface best practices.',
+            'Industry-recognized certification validating foundational skills in semantic HTML, CSS styling, layouts, and responsive web design.',
+        imageAsset: 'assets/certs/it_specialist_html_css.png',
       ),
       _CertificationItem(
-        title: 'Web Development Basics Workshop',
-        issuer: 'LPU – Cavite / Department-led training',
-        year: '2023',
+        title: 'CCNA: Introduction to Networks',
+        issuer: 'LPU–Cavite • Cisco Networking Academy',
+        year: '2025',
         details:
-            'Hands-on sessions covering HTML, CSS, basic JavaScript, and responsive layout patterns for web interfaces.',
+            'Coursework covering networking fundamentals, IP addressing, subnetting, basic routing and switching, and the OSI model.',
+        imageAsset: 'assets/certs/ccna_intro_networks.png',
       ),
       _CertificationItem(
-        title: 'Campus Design Hackathon – Participant',
-        issuer: 'Student Organization Event',
+        title: 'UNESCO Youth Hackathon 2025 – Delegate',
+        issuer: 'UNESCO Philippines',
         year: '2024',
         details:
-            'Collaborated with a small team to design screens and flows for a themed web or mobile solution under time pressure.',
+            'Represented as a student delegate, collaborating with a team to ideate and design digital solutions for youth- and community-focused challenges.',
+        imageAsset: 'assets/certs/unesco_hackathon_delegate.png',
       ),
       _CertificationItem(
-        title: 'Design Competition / Poster-Making Event',
-        issuer: 'School / Organization Activity',
+        title:
+            'NextGenPH: Youth Innovators Reimagining Public Service – Delegate',
+        issuer: 'Development Academy of the Philippines',
         year: '2022–2024',
         details:
-            'Created publicity materials such as digital posters and announcement layouts for events and initiatives.',
+            'Engaged in sessions on governance, innovation, and public service, contributing ideas on how technology and design can support civic initiatives.',
+        imageAsset: 'assets/certs/nextgenph_delegate.png',
       ),
     ];
-
-    // You can replace all of these with your real certs + competitions later ✨
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1502,12 +1505,14 @@ class _CertificationItem {
   final String issuer;
   final String year;
   final String details;
+  final String? imageAsset; // 👈 new
 
   _CertificationItem({
     required this.title,
     required this.issuer,
     required this.year,
     required this.details,
+    this.imageAsset,
   });
 }
 
@@ -1517,46 +1522,128 @@ class _CertificationTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: kParchment,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: kSun.withOpacity(0.4)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            item.title,
-            style: GoogleFonts.nunito(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              color: kDeepGreen,
+    return InkWell(
+      borderRadius: BorderRadius.circular(18),
+      onTap: () => _showCertificationDialog(context, item),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: kParchment,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: kSun.withOpacity(0.4)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              item.title,
+              style: GoogleFonts.nunito(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: kDeepGreen,
+              ),
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '${item.issuer} • ${item.year}',
-            style: GoogleFonts.nunito(
-              fontSize: 12,
-              color: kText.withOpacity(0.75),
+            const SizedBox(height: 4),
+            Text(
+              '${item.issuer} • ${item.year}',
+              style: GoogleFonts.nunito(
+                fontSize: 12,
+                color: kText.withOpacity(0.75),
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            item.details,
-            style: GoogleFonts.nunito(
-              fontSize: 12,
-              height: 1.6,
-              color: kText.withOpacity(0.9),
+            const SizedBox(height: 8),
+            Text(
+              item.details,
+              style: GoogleFonts.nunito(
+                fontSize: 12,
+                height: 1.6,
+                color: kText.withOpacity(0.9),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
+
+/* ───────────────────── CERT MODAL ───────────────────── */
+
+void _showCertificationDialog(BuildContext context, _CertificationItem item) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return Dialog(
+        backgroundColor: kParchment,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: 600,
+            maxHeight: 600,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Title + close
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        item.title,
+                        style: GoogleFonts.nunito(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: kDeepGreen,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close, color: kText),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '${item.issuer} • ${item.year}',
+                  style: GoogleFonts.nunito(
+                    fontSize: 12,
+                    color: kText.withOpacity(0.7),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: item.imageAsset != null
+                        ? Image.asset(
+                            item.imageAsset!,
+                            fit: BoxFit.contain,
+                          )
+                        : Center(
+                            child: Text(
+                              'Certificate preview coming soon.',
+                              style: GoogleFonts.nunito(
+                                fontSize: 12,
+                                color: kText.withOpacity(0.7),
+                              ),
+                            ),
+                          ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
 
 /* ───────────────────── SKILLS ───────────────────── */
 
@@ -1565,12 +1652,14 @@ class _SkillsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final designTools = ['Figma', 'Adobe XD', 'Photoshop', 'Illustrator'];
-    final devTools = ['Flutter', 'HTML/CSS', 'Basic JS', 'Git'];
+    final designTools = ['Figma', 'Canva', 'Basic Adobe Photoshop'];
+    final devTools = ['HTML/CSS', 'Basic JS', 'Basic Flutter/Dart', 'Git', 'VS Code', 'Github'];
     final softSkills = [
       'Collaboration',
       'Problem-solving',
       'Communication',
+      'Attention to detail',
+      'Attention to detail',
       'Attention to detail',
     ];
 
