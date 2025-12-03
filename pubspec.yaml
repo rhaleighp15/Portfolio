@@ -28,11 +28,12 @@ flutter:
   assets:
     - assets/certs/
     - assets/resforce/
-    - assets/matharlika
-    - assets/pizzame
-    - assets/pawcentral
-    - assets/epass
-    - assets/ninjahands
-    - assets/stockup
+    - assets/matharlika/
+    - assets/pizzame/
+    - assets/pawcentral/
+    - assets/epass/
+    - assets/ninjahands/
+    - assets/stockup/
+    - assets/pubmats/
 
    

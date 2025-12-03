@@ -2,6 +2,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'dart:async';
+
 
 /* ───────────────────── PALETTE ───────────────────── */
 
@@ -1071,19 +1073,19 @@ class _ProjectsSection extends StatelessWidget {
         caseStudyUrl: null,
         gallery: [
           'assets/matharlika/matharlika_1.png',
-           'assets/matharlika/matharlika_2.png',
-           'assets/matharlika/matharlika_3.png',
-           'assets/matharlika/matharlika_4.png',
-           'assets/matharlika/matharlika_5.png',
-           'assets/matharlika/matharlika_6.png',
-           'assets/matharlika/matharlika_7.png',
-           'assets/matharlika/matharlika_8.png',
-           'assets/matharlika/matharlika_9.png',
-           'assets/matharlika/matharlika_10.png',
-           'assets/matharlika/matharlika_11.png',
-           'assets/matharlika/matharlika_12.png',
-           'assets/matharlika/matharlika_13.png',
-           'assets/matharlika/matharlika_14.png',
+          'assets/matharlika/matharlika_2.png',
+          'assets/matharlika/matharlika_3.png',
+          'assets/matharlika/matharlika_4.png',
+          'assets/matharlika/matharlika_5.png',
+          'assets/matharlika/matharlika_6.png',
+          'assets/matharlika/matharlika_7.png',
+          'assets/matharlika/matharlika_8.png',
+          'assets/matharlika/matharlika_9.png',
+          'assets/matharlika/matharlika_10.png',
+          'assets/matharlika/matharlika_11.png',
+          'assets/matharlika/matharlika_12.png',
+          'assets/matharlika/matharlika_13.png',
+          'assets/matharlika/matharlika_14.png'
         ],
       ),
       const ProjectCardData(
@@ -1912,32 +1914,22 @@ class _DesignGallerySection extends StatefulWidget {
 class _DesignGallerySectionState extends State<_DesignGallerySection> {
   late final PageController _pageController;
   double _page = 0;
+  Timer? _autoScrollTimer;
 
+  // pubmat_1.png → pubmat_12.png
   final List<_DesignShot> _shots = const [
-    _DesignShot(
-      title: 'Analytics Dashboard UI',
-      description:
-          'A clean analytics layout exploring cards, charts, and subtle color accents.',
-      imageAsset: 'assets/design_dashboard.png',
-    ),
-    _DesignShot(
-      title: 'Mobile Onboarding Flow',
-      description:
-          'Soft, friendly onboarding screens for a concept mobile app experience.',
-      imageAsset: 'assets/design_onboarding.png',
-    ),
-    _DesignShot(
-      title: 'Landing Page Hero Section',
-      description:
-          'Hero section exploration with large typography, CTA buttons, and supporting visuals.',
-      imageAsset: 'assets/design_landing.png',
-    ),
-    _DesignShot(
-      title: 'Poster / PubMat Layout',
-      description:
-          'Publicity material design used for announcements and event promotions.',
-      imageAsset: 'assets/design_poster.png',
-    ),
+    _DesignShot(imageAsset: 'assets/pubmats/pubmat_1.png'),
+    _DesignShot(imageAsset: 'assets/pubmats/pubmat_2.png'),
+    _DesignShot(imageAsset: 'assets/pubmats/pubmat_3.png'),
+    _DesignShot(imageAsset: 'assets/pubmats/pubmat_4.png'),
+    _DesignShot(imageAsset: 'assets/pubmats/pubmat_5.png'),
+    _DesignShot(imageAsset: 'assets/pubmats/pubmat_6.png'),
+    _DesignShot(imageAsset: 'assets/pubmats/pubmat_7.png'),
+    _DesignShot(imageAsset: 'assets/pubmats/pubmat_8.png'),
+    _DesignShot(imageAsset: 'assets/pubmats/pubmat_9.png'),
+    _DesignShot(imageAsset: 'assets/pubmats/pubmat_10.png'),
+    _DesignShot(imageAsset: 'assets/pubmats/pubmat_11.png'),
+    _DesignShot(imageAsset: 'assets/pubmats/pubmat_12.png'),
   ];
 
   @override
@@ -1949,10 +1941,23 @@ class _DesignGallerySectionState extends State<_DesignGallerySection> {
         _page = _pageController.page ?? 0;
       });
     });
+
+    // Auto-scroll every 4 seconds
+    _autoScrollTimer = Timer.periodic(const Duration(seconds: 4), (timer) {
+      if (!mounted || _shots.isEmpty) return;
+      final current = _page.round();
+      final next = (current + 1) % _shots.length;
+      _pageController.animateToPage(
+        next,
+        duration: const Duration(milliseconds: 700),
+        curve: Curves.easeInOut,
+      );
+    });
   }
 
   @override
   void dispose() {
+    _autoScrollTimer?.cancel();
     _pageController.dispose();
     super.dispose();
   }
@@ -1969,7 +1974,8 @@ class _DesignGallerySectionState extends State<_DesignGallerySection> {
         ),
         const SizedBox(height: 8),
         SizedBox(
-          height: 320,
+          // bigger carousel height
+          height: 440,
           child: PageView.builder(
             controller: _pageController,
             itemCount: _shots.length,
@@ -2007,9 +2013,7 @@ class _DesignGallerySectionState extends State<_DesignGallerySection> {
                   height: 6,
                   width: isActive ? 20 : 8,
                   decoration: BoxDecoration(
-                    color: isActive
-                        ? kSun
-                        : kParchment.withOpacity(0.4),
+                    color: isActive ? kSun : kParchment.withOpacity(0.4),
                     borderRadius: BorderRadius.circular(999),
                   ),
                 );
@@ -2023,13 +2027,9 @@ class _DesignGallerySectionState extends State<_DesignGallerySection> {
 }
 
 class _DesignShot {
-  final String title;
-  final String description;
   final String imageAsset;
 
   const _DesignShot({
-    required this.title,
-    required this.description,
     required this.imageAsset,
   });
 }
@@ -2041,52 +2041,37 @@ class _DesignCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 420,
+      // wider card
+      width: 520,
       decoration: BoxDecoration(
-        color: kParchment,
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: kSun.withOpacity(0.4)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius:
-                const BorderRadius.vertical(top: Radius.circular(20)),
-            child: Image.asset(
-              shot.imageAsset,
-              height: 190,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  shot.title,
-                  style: GoogleFonts.nunito(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: kDeepGreen,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  shot.description,
-                  style: GoogleFonts.nunito(
-                    fontSize: 12,
-                    height: 1.6,
-                    color: kText.withOpacity(0.9),
-                  ),
-                ),
-              ],
-            ),
+        boxShadow: [
+          // Glow effect around the image
+          BoxShadow(
+            color: kSun.withOpacity(0.6),
+            blurRadius: 36,
+            spreadRadius: 12,
           ),
         ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          color: kParchment, // subtle background behind the image
+          alignment: Alignment.center,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              // max height so tall images still fit nicely
+              maxHeight: 380,
+            ),
+            child: Image.asset(
+              shot.imageAsset,
+              width: double.infinity,
+              fit: BoxFit.contain, // adjusts based on its own size / ratio
+            ),
+          ),
+        ),
       ),
     );
   }
