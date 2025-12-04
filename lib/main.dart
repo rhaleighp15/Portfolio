@@ -37,7 +37,7 @@ class PortfolioApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'UI/UX Portfolio',
+      title: 'Rhaleigh Paradero’s Portfolio',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
@@ -1179,7 +1179,7 @@ class _ProjectsSection extends StatelessWidget {
     final projects = [
       const ProjectCardData(
         title:
-            'RESFORCE: Army Reserve Record Management System for 402nd Community Defense Center',
+            'ResForce: Army Reserve Record Management System for 402nd Community Defense Center',
         description:
             'A web-based record management system for the Army Reserve Command, helping automate reservist profiles, unit assignments, and document tracking.',
         tags: [
@@ -1818,7 +1818,7 @@ class _ExperienceSection extends StatelessWidget {
             'Government-funded science and technology scholarship awarded for academic performance and STEM potential, maintained through consistent grades and active engagement in IT-related coursework.',
       ),
       _TimelineItem(
-        title: 'BS Information Technology (Student)',
+        title: 'BS Information Technology',
         subtitle:
             'Lyceum of the Philippines University – Cavite • 2022 – Present',
         details:
