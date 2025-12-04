@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 
 /* ───────────────────── PALETTE ───────────────────── */
@@ -15,6 +16,12 @@ const Color kSun = Color(0xFFCFAF5B); // antique gold
 const Color kParchment = Color(0xFFF3E4C6); // parchment surface
 const Color kTeal = Color(0xFF2D7A6A); // bottle teal
 const Color kRose = Color(0xFFB4575E); // dusty ruby;
+
+// ───────────────────── LINKS / EXTERNAL URLS ─────────────────────
+
+const String kCvUrl =
+    'https://your-cv-link-here'; // TODO: replace with your actual CV URL
+const String kGithubProfileUrl = 'https://github.com/rhaleighp15';
 
 void main() {
   // required for VisibilityDetector on some platforms
@@ -81,8 +88,67 @@ class PortfolioApp extends StatelessWidget {
 
 /* ───────────────────── PAGE ───────────────────── */
 
-class PortfolioPage extends StatelessWidget {
+class PortfolioPage extends StatefulWidget {
   const PortfolioPage({super.key});
+
+  @override
+  State<PortfolioPage> createState() => _PortfolioPageState();
+}
+
+class _PortfolioPageState extends State<PortfolioPage> {
+  final ScrollController _scrollController = ScrollController();
+
+  final GlobalKey _aboutKey = GlobalKey();
+  final GlobalKey _projectsKey = GlobalKey();
+  final GlobalKey _experienceKey = GlobalKey();
+  final GlobalKey _certsKey = GlobalKey();
+  final GlobalKey _skillsKey = GlobalKey();
+  final GlobalKey _designsKey = GlobalKey();
+  final GlobalKey _contactKey = GlobalKey();
+
+  Future<void> _scrollTo(GlobalKey key) async {
+    final ctx = key.currentContext;
+    if (ctx == null) return;
+
+    await Scrollable.ensureVisible(
+      ctx,
+      duration: const Duration(milliseconds: 650),
+      curve: Curves.easeInOutCubic,
+      alignment: 0.08,
+    );
+  }
+
+  void _onNavTap(String label) {
+    switch (label) {
+      case 'About':
+        _scrollTo(_aboutKey);
+        break;
+      case 'Projects':
+        _scrollTo(_projectsKey);
+        break;
+      case 'Experience':
+        _scrollTo(_experienceKey);
+        break;
+      case 'Certifications':
+        _scrollTo(_certsKey);
+        break;
+      case 'Skills':
+        _scrollTo(_skillsKey);
+        break;
+      case 'Designs':
+        _scrollTo(_designsKey);
+        break;
+      case 'Contact':
+        _scrollTo(_contactKey);
+        break;
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,49 +162,75 @@ class PortfolioPage extends StatelessWidget {
               builder: (context, constraints) {
                 final isWide = constraints.maxWidth > 900;
                 return SingleChildScrollView(
+                  controller: _scrollController,
                   child: Column(
                     children: [
-                      _TopNav(isWide: isWide),
+                      _TopNav(isWide: isWide, onNavTap: _onNavTap),
                       const SizedBox(height: 30),
-                      HeroSection(isWide: isWide),
+                      HeroSection(
+                        isWide: isWide,
+                        onViewProjects: () => _scrollTo(_projectsKey),
+                        onDownloadCv: () => openLink(kCvUrl),
+                      ),
                       const SizedBox(height: 40),
                       _SectionWrapper(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ScrollFadeIn(
-                              delay: const Duration(milliseconds: 80),
-                              child: const _AboutSection(),
+                            SectionAnchor(
+                              key: _aboutKey,
+                              child: ScrollFadeIn(
+                                delay: const Duration(milliseconds: 80),
+                                child: const _AboutSection(),
+                              ),
                             ),
                             const SizedBox(height: 40),
-                            ScrollFadeIn(
-                              delay: const Duration(milliseconds: 120),
-                              child: const _ProjectsSection(),
+                            SectionAnchor(
+                              key: _projectsKey,
+                              child: ScrollFadeIn(
+                                delay: const Duration(milliseconds: 120),
+                                child: const _ProjectsSection(),
+                              ),
                             ),
                             const SizedBox(height: 40),
-                            ScrollFadeIn(
-                              delay: const Duration(milliseconds: 140),
-                              child: const _ExperienceSection(),
+                            SectionAnchor(
+                              key: _experienceKey,
+                              child: ScrollFadeIn(
+                                delay: const Duration(milliseconds: 140),
+                                child: const _ExperienceSection(),
+                              ),
                             ),
                             const SizedBox(height: 40),
-                            ScrollFadeIn(
-                              delay: const Duration(milliseconds: 155),
-                              child: const _CertificationsSection(),
+                            SectionAnchor(
+                              key: _certsKey,
+                              child: ScrollFadeIn(
+                                delay: const Duration(milliseconds: 155),
+                                child: const _CertificationsSection(),
+                              ),
                             ),
                             const SizedBox(height: 40),
-                            ScrollFadeIn(
-                              delay: const Duration(milliseconds: 170),
-                              child: const _SkillsSection(),
+                            SectionAnchor(
+                              key: _skillsKey,
+                              child: ScrollFadeIn(
+                                delay: const Duration(milliseconds: 170),
+                                child: const _SkillsSection(),
+                              ),
                             ),
                             const SizedBox(height: 40),
-                            ScrollFadeIn(
-                              delay: const Duration(milliseconds: 185),
-                              child: const _DesignGallerySection(),
+                            SectionAnchor(
+                              key: _designsKey,
+                              child: ScrollFadeIn(
+                                delay: const Duration(milliseconds: 185),
+                                child: const _DesignGallerySection(),
+                              ),
                             ),
                             const SizedBox(height: 40),
-                            ScrollFadeIn(
-                              delay: const Duration(milliseconds: 200),
-                              child: const _ContactSection(),
+                            SectionAnchor(
+                              key: _contactKey,
+                              child: ScrollFadeIn(
+                                delay: const Duration(milliseconds: 200),
+                                child: const _ContactSection(),
+                              ),
                             ),
                             const SizedBox(height: 80),
                           ],
@@ -337,7 +429,9 @@ class _BgSparkle extends StatelessWidget {
 
 class _TopNav extends StatelessWidget {
   final bool isWide;
-  const _TopNav({required this.isWide});
+  final void Function(String label)? onNavTap;
+
+  const _TopNav({required this.isWide, this.onNavTap});
 
   @override
   Widget build(BuildContext context) {
@@ -396,14 +490,35 @@ class _TopNav extends StatelessWidget {
                 ),
                 if (isWide)
                   Row(
-                    children: const [
-                      _NavItem(label: 'About'),
-                      _NavItem(label: 'Projects'),
-                      _NavItem(label: 'Experience'),
-                      _NavItem(label: 'Certifications'),
-                      _NavItem(label: 'Skills'),
-                      _NavItem(label: 'Designs'),
-                      _NavItem(label: 'Contact'),
+                    children: [
+                      _NavItem(
+                        label: 'About',
+                        onTap: () => onNavTap?.call('About'),
+                      ),
+                      _NavItem(
+                        label: 'Projects',
+                        onTap: () => onNavTap?.call('Projects'),
+                      ),
+                      _NavItem(
+                        label: 'Experience',
+                        onTap: () => onNavTap?.call('Experience'),
+                      ),
+                      _NavItem(
+                        label: 'Certifications',
+                        onTap: () => onNavTap?.call('Certifications'),
+                      ),
+                      _NavItem(
+                        label: 'Skills',
+                        onTap: () => onNavTap?.call('Skills'),
+                      ),
+                      _NavItem(
+                        label: 'Designs',
+                        onTap: () => onNavTap?.call('Designs'),
+                      ),
+                      _NavItem(
+                        label: 'Contact',
+                        onTap: () => onNavTap?.call('Contact'),
+                      ),
                     ],
                   ),
                 if (!isWide)
@@ -419,7 +534,9 @@ class _TopNav extends StatelessWidget {
 
 class _NavItem extends StatefulWidget {
   final String label;
-  const _NavItem({required this.label});
+  final VoidCallback? onTap;
+
+  const _NavItem({required this.label, this.onTap});
 
   @override
   State<_NavItem> createState() => _NavItemState();
@@ -434,33 +551,36 @@ class _NavItemState extends State<_NavItem> {
       cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _hovering = true),
       onExit: (_) => setState(() => _hovering = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 160),
-        curve: Curves.easeOutCubic,
-        margin: const EdgeInsets.symmetric(horizontal: 6),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: _hovering ? kSoftGreen.withOpacity(0.9) : Colors.transparent,
-          borderRadius: BorderRadius.circular(999),
-        ),
-        child: Row(
-          children: [
-            AnimatedOpacity(
-              opacity: _hovering ? 1 : 0,
-              duration: const Duration(milliseconds: 160),
-              child: const Icon(Icons.star, size: 14, color: kSun),
-            ),
-            if (_hovering) const SizedBox(width: 6),
-            Text(
-              widget.label,
-              style: GoogleFonts.nunito(
-                fontSize: 12,
-                letterSpacing: 1.2,
-                fontWeight: FontWeight.w600,
-                color: _hovering ? kParchment : kParchment,
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 160),
+          curve: Curves.easeOutCubic,
+          margin: const EdgeInsets.symmetric(horizontal: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: _hovering ? kSoftGreen.withOpacity(0.9) : Colors.transparent,
+            borderRadius: BorderRadius.circular(999),
+          ),
+          child: Row(
+            children: [
+              AnimatedOpacity(
+                opacity: _hovering ? 1 : 0,
+                duration: const Duration(milliseconds: 160),
+                child: const Icon(Icons.star, size: 14, color: kSun),
               ),
-            ),
-          ],
+              if (_hovering) const SizedBox(width: 6),
+              Text(
+                widget.label,
+                style: GoogleFonts.nunito(
+                  fontSize: 12,
+                  letterSpacing: 1.2,
+                  fontWeight: FontWeight.w600,
+                  color: kParchment,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -471,7 +591,15 @@ class _NavItemState extends State<_NavItem> {
 
 class HeroSection extends StatefulWidget {
   final bool isWide;
-  const HeroSection({required this.isWide, super.key});
+  final VoidCallback? onViewProjects;
+  final VoidCallback? onDownloadCv;
+
+  const HeroSection({
+    required this.isWide,
+    this.onViewProjects,
+    this.onDownloadCv,
+    super.key,
+  });
 
   @override
   State<HeroSection> createState() => _HeroSectionState();
@@ -524,6 +652,7 @@ class _HeroSectionState extends State<HeroSection>
                     return Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        // ─── LEFT TEXT COLUMN ───
                         Expanded(
                           flex: isWide ? 6 : 0,
                           child: Column(
@@ -595,14 +724,16 @@ class _HeroSectionState extends State<HeroSection>
                                   runSpacing: 12,
                                   children: [
                                     ElevatedButton.icon(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.grid_view_rounded),
+                                      onPressed: widget.onViewProjects,
+                                      icon: const Icon(
+                                        Icons.grid_view_rounded,
+                                      ),
                                       label: const Text(
                                         'View Academic Projects',
                                       ),
                                     ),
                                     OutlinedButton.icon(
-                                      onPressed: () {},
+                                      onPressed: widget.onDownloadCv,
                                       icon: const Icon(Icons.description),
                                       label: const Text('Download CV'),
                                     ),
@@ -626,34 +757,40 @@ class _HeroSectionState extends State<HeroSection>
                             ],
                           ),
                         ),
+
                         if (isWide) const SizedBox(width: 32),
+
+                        // ─── RIGHT ILLUSTRATION COLUMN ───
                         if (isWide)
                           Expanded(
                             flex: 4,
                             child: SizedBox(
-                              height: 320,
+                              height: 420, // more vertical room
                               child: Stack(
                                 clipBehavior: Clip.none,
                                 children: [
+                                  // glowing sun
                                   Positioned(
-                                    top: 24 + movement * 0.4,
-                                    left: 18,
+                                    top: 40 + movement * 0.3,
+                                    right: 40,
                                     child: Container(
-                                      width: 86,
-                                      height: 86,
+                                      width: 140,
+                                      height: 140,
                                       decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
                                         color: kSun,
-                                        borderRadius: BorderRadius.circular(86),
                                         boxShadow: [
                                           BoxShadow(
                                             color: kSun.withOpacity(0.7),
-                                            blurRadius: 28,
-                                            spreadRadius: 6,
+                                            blurRadius: 60,
+                                            spreadRadius: 18,
                                           ),
                                         ],
                                       ),
                                     ),
                                   ),
+
+                                  // floating charms
                                   _FloatingCharmPainted(
                                     left: -6,
                                     top: 26 + math.sin(charmPhase) * 8,
@@ -687,33 +824,50 @@ class _HeroSectionState extends State<HeroSection>
                                     color: kLeaf,
                                     opacityBase: 0.9,
                                   ),
+
+                                  // your illustration (clickable)
                                   Align(
-                                    alignment: Alignment.center,
+                                    alignment: Alignment.bottomRight,
                                     child: Transform.translate(
-                                      offset: Offset(0, movement),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const CircleAvatar(
-                                            radius: 72,
-                                            backgroundColor: kBg,
-                                            child: Icon(
-                                              Icons.person,
-                                              size: 60,
-                                              color: kParchment,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 12),
-                                          Text(
-                                            'Your Illustration / Avatar',
-                                            style: GoogleFonts.nunito(
-                                              fontSize: 12,
-                                              color: kDeepGreen.withOpacity(
-                                                0.82,
+                                      offset: Offset(0, movement * 0.4),
+                                      child: MouseRegion(
+                                        cursor: SystemMouseCursors.click,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                // uses your existing zoom dialog helper
+                                                _showZoomImageDialog(
+                                                  context,
+                                                  'assets/profile/rhaleigh.png',
+                                                  caption:
+                                                      'Marianne Rhaleigh G. Paradero',
+                                                );
+                                              },
+                                              child: SizedBox(
+                                                height:
+                                                    390, // controls drawing.png size
+                                                child: Image.asset(
+                                                  'assets/profile/drawing.png',
+                                                  fit: BoxFit.contain,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                            const SizedBox(height: 12),
+                                            Text(
+                                              'Marianne Rhaleigh G. Paradero',
+                                              style: GoogleFonts.nunito(
+                                                fontSize: 12,
+                                                color: kParchment.withOpacity(
+                                                  0.75,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -787,7 +941,7 @@ class _HeroTag extends StatelessWidget {
   }
 }
 
-/* ───────────────────── WRAPPER & SCROLL FADE ───────────────────── */
+/* ───────────────────── WRAPPER, ANCHOR & SCROLL FADE ───────────────────── */
 
 class _SectionWrapper extends StatelessWidget {
   final Widget child;
@@ -804,6 +958,17 @@ class _SectionWrapper extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class SectionAnchor extends StatelessWidget {
+  final Widget child;
+
+  const SectionAnchor({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return child;
   }
 }
 
@@ -1171,7 +1336,6 @@ class _ProjectsSection extends StatelessWidget {
         title: 'NinjaHands',
         description:
             'A sign language learning app featuring animated video tutorials, gesture-tracking practice, and interactive quizzes to help users learn and reinforce ASL & FSL basics.',
-
         tags: ['Mobile app', 'UX Flows', 'Concept'],
         role: 'Product / UI/UX Designer',
         timeframe: '2024 • Personal project',
@@ -1288,7 +1452,7 @@ class ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 🔁 Card has NO thumbnail now – text-only on the list.
+    // Card has NO thumbnail now – text-only on the list.
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -1423,6 +1587,17 @@ void _showProjectGalleryDialog(BuildContext context, ProjectCardData data) {
                       ],
                     ),
                     const SizedBox(height: 8),
+                    if (data.caseStudyUrl != null) ...[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton.icon(
+                          onPressed: () => openLink(data.caseStudyUrl!),
+                          icon: const Icon(Icons.open_in_new, size: 16),
+                          label: const Text('Open live site / case study'),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                    ],
                     // Image viewer with caption overlay + click to zoom
                     Expanded(
                       child: ClipRRect(
@@ -1781,17 +1956,16 @@ class _CertificationsSection extends StatelessWidget {
       _CertificationItem(
         title: 'UNESCO Youth Hackathon 2025 – Delegate',
         issuer: 'UNESCO Philippines',
-        year: '2024',
+        year: '2025',
         details:
             'Participated as part of the ResForce team, collaborating to ideate and design digital solutions for youth- and community-focused challenges.',
         imageAsset: 'assets/certs/unesco_hackathon_delegate.png',
       ),
-
       _CertificationItem(
         title:
             'NextGenPH: Youth Innovators Reimagining Public Service – Delegate',
         issuer: 'Development Academy of the Philippines',
-        year: '2022–2024',
+        year: '2025',
         details:
             'Engaged, together with the ResForce team, in sessions on governance, innovation, and public service, contributing ideas on how technology and design can support civic initiatives.',
         imageAsset: 'assets/certs/nextgenph_delegate.png',
@@ -2655,13 +2829,8 @@ class _DesignShotImageState extends State<_DesignShotImage> {
           duration: const Duration(milliseconds: 150),
           curve: Curves.easeOut,
           child: Container(
-            // fill the page viewport for maximum size
             width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(28),
-              // 👇 glow removed: no boxShadow here
-              // boxShadow: [],
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(28)),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(24),
               child: Stack(
@@ -2770,7 +2939,7 @@ void _showDesignZoomDialog(BuildContext context, _DesignShot shot) {
   );
 }
 
-/* ───────────────────── CONTACT – (KEPT, BUT SLIGHTLY POLISHED) ───────────────────── */
+/* ───────────────────── CONTACT ───────────────────── */
 
 class _ContactSection extends StatelessWidget {
   const _ContactSection();
@@ -2840,14 +3009,17 @@ class _ContactSection extends StatelessWidget {
                           children: [
                             ElevatedButton.icon(
                               onPressed: () {
-                                // TODO: hook to mailto: or contact form
+                                sendEmail(
+                                  'paradero.marianne15@gmail.com',
+                                  subject: 'UI/UX Internship Inquiry',
+                                );
                               },
                               icon: const Icon(Icons.mail_rounded, size: 18),
                               label: const Text('Email me'),
                             ),
                             OutlinedButton.icon(
                               onPressed: () {
-                                // TODO: hook to Behance / portfolio link
+                                openLink(kGithubProfileUrl);
                               },
                               icon: const Icon(Icons.link_rounded, size: 18),
                               label: const Text('View Github profile'),
@@ -2865,20 +3037,28 @@ class _ContactSection extends StatelessWidget {
                     flex: isWide ? 2 : 0,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         _ContactMethodCard(
                           icon: Icons.email_rounded,
                           label: 'Email',
                           value: 'paradero.marianne15@gmail.com',
+                          onTap: () {
+                            sendEmail(
+                              'paradero.marianne15@gmail.com',
+                              subject: 'UI/UX Internship Inquiry',
+                            );
+                          },
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         _ContactMethodCard(
                           icon: Icons.web_rounded,
                           label: 'Github',
                           value: 'https://github.com/rhaleighp15',
+                          onTap: () =>
+                              openLink('https://github.com/rhaleighp15'),
                         ),
-                        SizedBox(height: 8),
-                        _ContactMethodCard(
+                        const SizedBox(height: 8),
+                        const _ContactMethodCard(
                           icon: Icons.location_on_rounded,
                           label: 'Location',
                           value: 'Cavite, Philippines',
@@ -2910,58 +3090,67 @@ class _ContactMethodCard extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
+  final VoidCallback? onTap;
 
   const _ContactMethodCard({
     required this.icon,
     required this.label,
     required this.value,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return HoverCard(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(
-          color: kDeepGreen.withOpacity(0.9),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: kSun.withOpacity(0.35)),
-        ),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: kLeaf.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(999),
-              ),
-              child: Icon(icon, size: 18, color: kSun),
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+              color: kDeepGreen.withOpacity(0.9),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: kSun.withOpacity(0.35)),
             ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    label,
-                    style: GoogleFonts.nunito(
-                      fontSize: 11,
-                      color: kParchment.withOpacity(0.8),
-                    ),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: kLeaf.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(999),
                   ),
-                  const SizedBox(height: 2),
-                  SelectableText(
-                    value,
-                    style: GoogleFonts.nunito(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: kParchment,
-                    ),
+                  child: Icon(icon, size: 18, color: kSun),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        label,
+                        style: GoogleFonts.nunito(
+                          fontSize: 11,
+                          color: kParchment.withOpacity(0.8),
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      SelectableText(
+                        value,
+                        style: GoogleFonts.nunito(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: kParchment,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -2996,5 +3185,31 @@ class _HoverCardState extends State<HoverCard> {
         ),
       ),
     );
+  }
+}
+
+/* ───────────────────── LINK HELPERS ───────────────────── */
+
+Future<void> openLink(String url) async {
+  final uri = Uri.parse(url);
+  final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
+  if (!ok) {
+    debugPrint('Could not launch $url');
+  }
+}
+
+Future<void> sendEmail(String email, {String? subject, String? body}) async {
+  final uri = Uri(
+    scheme: 'mailto',
+    path: email,
+    queryParameters: {
+      if (subject != null && subject.isNotEmpty) 'subject': subject,
+      if (body != null && body.isNotEmpty) 'body': body,
+    },
+  );
+
+  final ok = await launchUrl(uri);
+  if (!ok) {
+    debugPrint('Could not launch email client for $email');
   }
 }
