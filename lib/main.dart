@@ -754,7 +754,6 @@ class _FloatingCharmPainted extends StatelessWidget {
     required this.size,
     required this.color,
     this.opacityBase = 0.8,
-    super.key,
   });
 
   @override
@@ -774,7 +773,7 @@ class _FloatingCharmPainted extends StatelessWidget {
 
 class _HeroTag extends StatelessWidget {
   final String label;
-  const _HeroTag({required this.label, super.key});
+  const _HeroTag({required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -898,7 +897,6 @@ class _SectionTitle extends StatelessWidget {
     required this.label,
     required this.tagline,
     this.center = false,
-    super.key,
   });
 
   @override
@@ -937,7 +935,7 @@ class _SectionTitle extends StatelessWidget {
 /* ───────────────────── ABOUT ───────────────────── */
 
 class _AboutSection extends StatelessWidget {
-  const _AboutSection({super.key});
+  const _AboutSection();
 
   @override
   Widget build(BuildContext context) {
@@ -985,7 +983,7 @@ class _AboutSection extends StatelessWidget {
 /* ───────────────────── PROJECTS ───────────────────── */
 
 class _ProjectsSection extends StatelessWidget {
-  const _ProjectsSection({super.key});
+  const _ProjectsSection();
 
   @override
   Widget build(BuildContext context) {
@@ -1022,6 +1020,13 @@ class _ProjectsSection extends StatelessWidget {
         gallery: [
           'assets/epass/epass_1.png',
           'assets/epass/epass_2.png',
+          'assets/epass/epass_3.png',
+          'assets/epass/epass_4.png',
+          'assets/epass/epass_5.png',
+          'assets/epass/epass_6.png',
+          'assets/epass/epass_7.png',
+          'assets/epass/epass_8.png',
+          'assets/epass/epass_9.png',
         ],
       ),
       const ProjectCardData(
@@ -1203,7 +1208,7 @@ class ProjectCardData {
 
 class _ProjectCardInteractive extends StatelessWidget {
   final ProjectCardData data;
-  const _ProjectCardInteractive({required this.data, super.key});
+  const _ProjectCardInteractive({required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -1430,7 +1435,7 @@ void _showProjectGalleryDialog(BuildContext context, ProjectCardData data) {
 /* ───────────────────── EXPERIENCE ───────────────────── */
 
 class _ExperienceSection extends StatelessWidget {
-  const _ExperienceSection({super.key});
+  const _ExperienceSection();
 
   @override
   Widget build(BuildContext context) {
@@ -1516,7 +1521,7 @@ class _TimelineItem {
 
 class _TimelineTile extends StatelessWidget {
   final _TimelineItem item;
-  const _TimelineTile({required this.item, super.key});
+  const _TimelineTile({required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -1581,7 +1586,7 @@ class _TimelineTile extends StatelessWidget {
 /* ───────────────────── CERTIFICATIONS & COMPETITIONS ───────────────────── */
 
 class _CertificationsSection extends StatelessWidget {
-  const _CertificationsSection({super.key});
+  const _CertificationsSection();
 
   @override
   Widget build(BuildContext context) {
@@ -1800,7 +1805,7 @@ void _showCertificationDialog(BuildContext context, _CertificationItem item) {
 /* ───────────────────── SKILLS ───────────────────── */
 
 class _SkillsSection extends StatelessWidget {
-  const _SkillsSection({super.key});
+  const _SkillsSection();
 
   @override
   Widget build(BuildContext context) {
@@ -1856,7 +1861,7 @@ class _SkillsSection extends StatelessWidget {
 class _SkillGroup extends StatelessWidget {
   final String title;
   final List<String> items;
-  const _SkillGroup({required this.title, required this.items, super.key});
+  const _SkillGroup({required this.title, required this.items});
 
   @override
   Widget build(BuildContext context) {
@@ -1905,7 +1910,7 @@ class _SkillGroup extends StatelessWidget {
 /* ───────────────────── DESIGN GALLERY – CAROUSEL ───────────────────── */
 
 class _DesignGallerySection extends StatefulWidget {
-  const _DesignGallerySection({super.key});
+  const _DesignGallerySection();
 
   @override
   State<_DesignGallerySection> createState() => _DesignGallerySectionState();
@@ -2080,7 +2085,7 @@ class _DesignCard extends StatelessWidget {
 /* ───────────────────── CONTACT ───────────────────── */
 
 class _ContactSection extends StatelessWidget {
-  const _ContactSection({super.key});
+  const _ContactSection();
 
   @override
   Widget build(BuildContext context) {
@@ -2147,7 +2152,7 @@ class _ContactSection extends StatelessWidget {
 class _ContactChip extends StatelessWidget {
   final IconData icon;
   final String label;
-  const _ContactChip({required this.icon, required this.label, super.key});
+  const _ContactChip({required this.icon, required this.label});
 
   @override
   Widget build(BuildContext context) {
