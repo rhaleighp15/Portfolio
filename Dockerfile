@@ -1,4 +1,4 @@
-# Simple nginx image only – web is already built in build/web
+# Simple nginx image – web already built in build/web
 FROM nginx:alpine
 
 # Remove default nginx content
@@ -7,8 +7,9 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copy your pre-built Flutter web app
 COPY build/web /usr/share/nginx/html
 
-# Basic nginx config for single-page apps
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Use nginx's built-in envsubst templating
+# Place our config as a template; it will be rendered to conf.d on start
+COPY nginx.conf.template /etc/nginx/templates/default.conf.template
 
 EXPOSE 80
 
