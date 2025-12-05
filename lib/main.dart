@@ -22,7 +22,8 @@ const Color kRose = Color(0xFFB4575E); // dusty ruby;
 // ───────────────────── LINKS / EXTERNAL URLS ─────────────────────
 
 // CV repo on GitHub (page, not raw PDF)
-const String kCvUrl = 'https://github.com/rhaleighp15/RhaleighParadero-CV';
+const String kCvUrl =
+    'https://github.com/rhaleighp15/RhaleighParadero-CV/blob/main/paradero_cv.pdf';
 const String kGithubProfileUrl = 'https://github.com/rhaleighp15';
 
 void main() {
@@ -732,8 +733,9 @@ class _HeroSectionState extends State<HeroSection>
                       final crossAxis = alignLeft
                           ? CrossAxisAlignment.start
                           : CrossAxisAlignment.center;
-                      final textAlign =
-                          alignLeft ? TextAlign.left : TextAlign.center;
+                      final textAlign = alignLeft
+                          ? TextAlign.left
+                          : TextAlign.center;
 
                       return Column(
                         crossAxisAlignment: crossAxis,
@@ -776,9 +778,7 @@ class _HeroSectionState extends State<HeroSection>
                           ScrollFadeIn(
                             delay: const Duration(milliseconds: 200),
                             child: ConstrainedBox(
-                              constraints: const BoxConstraints(
-                                maxWidth: 720,
-                              ),
+                              constraints: const BoxConstraints(maxWidth: 720),
                               child: Text(
                                 'I’m a 4th year IT student who loves UI/UX design and frontend development —'
                                 ' still learning, but excited to contribute, grow with a team, and support real projects through an internship opportunity.',
@@ -802,16 +802,13 @@ class _HeroSectionState extends State<HeroSection>
                                   : WrapAlignment.center,
                               children: [
                                 ElevatedButton.icon(
-                                  onPressed: widget.onViewProjects,
-                                  icon: const Icon(
-                                    Icons.grid_view_rounded,
-                                  ),
-                                  label: const Text(
-                                    'View Academic Projects',
-                                  ),
+                                  onPressed: () =>
+                                      widget.onViewProjects?.call(),
+                                  icon: const Icon(Icons.grid_view_rounded),
+                                  label: const Text('View Academic Projects'),
                                 ),
                                 OutlinedButton.icon(
-                                  onPressed: widget.onDownloadCv,
+                                  onPressed: () => openLink(kCvUrl),
                                   icon: const Icon(Icons.description),
                                   label: const Text('View CV on GitHub'),
                                 ),
@@ -878,9 +875,7 @@ class _HeroSectionState extends State<HeroSection>
                             ),
                             _FloatingCharmPainted(
                               right: 12,
-                              top: 100 +
-                                  math.cos(charmPhase * 1.3) *
-                                      10,
+                              top: 100 + math.cos(charmPhase * 1.3) * 10,
                               icon: Icons.circle,
                               size: 12,
                               color: kTeal,
@@ -896,9 +891,7 @@ class _HeroSectionState extends State<HeroSection>
                             ),
                             _FloatingCharmPainted(
                               right: -12,
-                              bottom: 20 +
-                                  math.sin(charmPhase * 0.7) *
-                                      12,
+                              bottom: 20 + math.sin(charmPhase * 0.7) * 12,
                               icon: Icons.circle,
                               size: 14,
                               color: kLeaf,
@@ -939,9 +932,7 @@ class _HeroSectionState extends State<HeroSection>
                                         'Marianne Rhaleigh G. Paradero',
                                         style: GoogleFonts.nunito(
                                           fontSize: 12,
-                                          color: kParchment.withOpacity(
-                                            0.75,
-                                          ),
+                                          color: kParchment.withOpacity(0.75),
                                         ),
                                       ),
                                     ],
@@ -2381,7 +2372,7 @@ class _SkillsSection extends StatelessWidget {
                                 icon: Icons.brush_rounded,
                                 color: kLeaf,
                               ),
-                            const SizedBox(width: 10),
+                              const SizedBox(width: 10),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
