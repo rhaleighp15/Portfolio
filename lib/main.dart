@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'dart:async';
+import 'dart:html' as html; // web-only (ok for Flutter web builds)
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -21,10 +22,9 @@ const Color kRose = Color(0xFFB4575E); // dusty ruby;
 
 // ───────────────────── LINKS / EXTERNAL URLS ─────────────────────
 
-// Public GitHub URL where your CV is hosted
-const String kCvGithubUrl =
+// Public CV hosted on GitHub (raw link)
+const String kCvUrl =
     'https://raw.githubusercontent.com/rhaleighp15/RhaleighParadero-CV/main/paradero_cv.pdf';
-
 const String kGithubProfileUrl = 'https://github.com/rhaleighp15';
 
 void main() {
@@ -174,8 +174,8 @@ class _PortfolioPageState extends State<PortfolioPage> {
                       HeroSection(
                         isWide: isWide,
                         onViewProjects: () => _scrollTo(_projectsKey),
-                        // now open the CV from GitHub
-                        onDownloadCv: () => openLink(kCvGithubUrl),
+                        // now uses GitHub CV download
+                        onDownloadCv: downloadCvAsset,
                       ),
                       const SizedBox(height: 40),
                       _SectionWrapper(
@@ -879,7 +879,7 @@ class _HeroSectionState extends State<HeroSection>
                       );
                     }
 
-                    // ─── LAYOUT SWITCH ───
+                    // ─── LAYOUT SWITCH ─────────────────────
                     if (isWide) {
                       // Desktop / large screens: Row
                       return Row(
@@ -3253,5 +3253,28 @@ Future<void> sendEmail(String email, {String? subject, String? body}) async {
   final ok = await launchUrl(uri);
   if (!ok) {
     debugPrint('Could not launch email client for $email');
+  }
+}
+
+/// Download / open the CV hosted on GitHub (raw PDF)
+Future<void> downloadCvAsset() async {
+  const fileName = 'Marianne_Rhaleigh_Paradero_CV.pdf';
+
+  if (kIsWeb) {
+    // Force a download in the browser via a hidden <a> tag
+    final anchor = html.AnchorElement(href: kCvUrl)
+      ..download = fileName
+      ..target = '_blank'; // some browsers may open in new tab
+
+    html.document.body?.append(anchor);
+    anchor.click();
+    anchor.remove();
+  } else {
+    // Non-web platforms: just open the PDF in an external app
+    final uri = Uri.parse(kCvUrl);
+    final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!ok) {
+      debugPrint('Could not launch $uri');
+    }
   }
 }
