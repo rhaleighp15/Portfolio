@@ -21,9 +21,8 @@ const Color kRose = Color(0xFFB4575E); // dusty ruby;
 
 // ───────────────────── LINKS / EXTERNAL URLS ─────────────────────
 
-// Public CV hosted on GitHub (raw link)
-const String kCvUrl =
-    'https://raw.githubusercontent.com/rhaleighp15/RhaleighParadero-CV/main/paradero_cv.pdf';
+// CV repo on GitHub (page, not raw PDF)
+const String kCvUrl = 'https://github.com/rhaleighp15/RhaleighParadero-CV';
 const String kGithubProfileUrl = 'https://github.com/rhaleighp15';
 
 void main() {
@@ -173,7 +172,6 @@ class _PortfolioPageState extends State<PortfolioPage> {
                       HeroSection(
                         isWide: isWide,
                         onViewProjects: () => _scrollTo(_projectsKey),
-                        // now uses GitHub CV open (new tab / external viewer)
                         onDownloadCv: downloadCvAsset,
                       ),
                       const SizedBox(height: 40),
@@ -437,6 +435,77 @@ class _TopNav extends StatelessWidget {
 
   const _TopNav({required this.isWide, this.onNavTap});
 
+  void _openMobileMenu(BuildContext context) {
+    if (onNavTap == null) return;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: kDeepGreen,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) {
+        final items = [
+          'About',
+          'Projects',
+          'Experience',
+          'Certifications',
+          'Skills',
+          'Designs',
+          'Contact',
+        ];
+
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: kParchment.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Navigate',
+                    style: GoogleFonts.nunito(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: kParchment,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ...items.map(
+                  (label) => ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      label,
+                      style: GoogleFonts.nunito(
+                        fontSize: 13,
+                        color: kParchment,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      onNavTap?.call(label);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -526,7 +595,10 @@ class _TopNav extends StatelessWidget {
                     ],
                   ),
                 if (!isWide)
-                  const Icon(Icons.menu, color: kParchment, size: 28),
+                  IconButton(
+                    icon: const Icon(Icons.menu, color: kParchment, size: 28),
+                    onPressed: () => _openMobileMenu(context),
+                  ),
               ],
             ),
           ),
@@ -741,7 +813,7 @@ class _HeroSectionState extends State<HeroSection>
                                 OutlinedButton.icon(
                                   onPressed: widget.onDownloadCv,
                                   icon: const Icon(Icons.description),
-                                  label: const Text('Download CV'),
+                                  label: const Text('View CV on GitHub'),
                                 ),
                               ],
                             ),
@@ -806,7 +878,9 @@ class _HeroSectionState extends State<HeroSection>
                             ),
                             _FloatingCharmPainted(
                               right: 12,
-                              top: 100 + math.cos(charmPhase * 1.3) * 10,
+                              top: 100 +
+                                  math.cos(charmPhase * 1.3) *
+                                      10,
                               icon: Icons.circle,
                               size: 12,
                               color: kTeal,
@@ -822,7 +896,9 @@ class _HeroSectionState extends State<HeroSection>
                             ),
                             _FloatingCharmPainted(
                               right: -12,
-                              bottom: 20 + math.sin(charmPhase * 0.7) * 12,
+                              bottom: 20 +
+                                  math.sin(charmPhase * 0.7) *
+                                      12,
                               icon: Icons.circle,
                               size: 14,
                               color: kLeaf,
@@ -1528,7 +1604,7 @@ class ProjectCard extends StatelessWidget {
   }
 }
 
-/* ───────────── PROJECT GALLERY DIALOG (CLICK CARD → IMAGES + CAPTION + ZOOM) ───────────── */
+/* ───────────── PROJECT GALLERY DIALOG ───────────── */
 
 void _showProjectGalleryDialog(BuildContext context, ProjectCardData data) {
   if (data.gallery.isEmpty) {
@@ -2176,7 +2252,7 @@ void _showCertificationDialog(BuildContext context, _CertificationItem item) {
   );
 }
 
-/* ───────────────────── SKILLS – HORIZONTAL + CENTERED SOFT SKILLS ───────────────────── */
+/* ───────────────────── SKILLS ───────────────────── */
 
 class _SkillsSection extends StatelessWidget {
   const _SkillsSection();
@@ -2305,7 +2381,7 @@ class _SkillsSection extends StatelessWidget {
                                 icon: Icons.brush_rounded,
                                 color: kLeaf,
                               ),
-                              const SizedBox(width: 10),
+                            const SizedBox(width: 10),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -2597,7 +2673,7 @@ class _SkillMeterRowState extends State<_SkillMeterRow> {
   }
 }
 
-/* ───────────────────── DESIGN GALLERY – SIMPLE CAROUSEL (NO GLOW) ───────────────────── */
+/* ───────────────────── DESIGN GALLERY ───────────────────── */
 
 class _DesignGallerySection extends StatefulWidget {
   const _DesignGallerySection();
@@ -2661,7 +2737,6 @@ class _DesignGallerySectionState extends State<_DesignGallerySection> {
   @override
   void initState() {
     super.initState();
-    // bigger viewportFraction = bigger image in the viewport
     _pageController = PageController(viewportFraction: 0.86);
     _pageController.addListener(() {
       setState(() {
@@ -2669,7 +2744,6 @@ class _DesignGallerySectionState extends State<_DesignGallerySection> {
       });
     });
 
-    // Auto-scroll every 5 seconds
     _autoScrollTimer = Timer.periodic(const Duration(seconds: 5), (_) {
       if (!_pageController.hasClients ||
           !_pageController.position.hasContentDimensions ||
@@ -2710,7 +2784,6 @@ class _DesignGallerySectionState extends State<_DesignGallerySection> {
             clipBehavior: Clip.none,
             alignment: Alignment.center,
             children: [
-              // main carousel (no background glow)
               PageView.builder(
                 controller: _pageController,
                 itemCount: _shots.length,
@@ -2733,7 +2806,6 @@ class _DesignGallerySectionState extends State<_DesignGallerySection> {
                 },
               ),
 
-              // previous button
               Positioned(
                 left: 12,
                 child: _GalleryArrowButton(
@@ -2752,7 +2824,6 @@ class _DesignGallerySectionState extends State<_DesignGallerySection> {
                 ),
               ),
 
-              // next button
               Positioned(
                 right: 12,
                 child: _GalleryArrowButton(
@@ -2773,7 +2844,6 @@ class _DesignGallerySectionState extends State<_DesignGallerySection> {
           ),
         ),
         const SizedBox(height: 10),
-        // dots
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(_shots.length, (i) {
@@ -3222,7 +3292,6 @@ class _HoverCardState extends State<HoverCard> {
 Future<void> openLink(String url) async {
   Uri uri;
 
-  // For web, resolve asset-like paths to full URL; for normal links, just parse
   if (kIsWeb && (url.startsWith('assets/') || url.startsWith('/assets/'))) {
     uri = Uri.base.resolve(url);
   } else {
@@ -3255,17 +3324,7 @@ Future<void> sendEmail(String email, {String? subject, String? body}) async {
   }
 }
 
-/// Open the CV hosted on GitHub (raw PDF) – opens new tab on web, external viewer elsewhere
+/// Open the CV repo on GitHub
 Future<void> downloadCvAsset() async {
-  final uri = Uri.parse(kCvUrl);
-
-  final ok = await launchUrl(
-    uri,
-    mode: LaunchMode.platformDefault,
-    webOnlyWindowName: kIsWeb ? '_blank' : null,
-  );
-
-  if (!ok) {
-    debugPrint('Could not launch $uri');
-  }
+  await openLink(kCvUrl);
 }
