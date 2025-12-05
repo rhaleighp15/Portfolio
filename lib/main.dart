@@ -1,9 +1,12 @@
 import 'dart:math' as math;
+import 'dart:async';
+import 'dart:html' as html; // web-only (ok for Flutter web builds)
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:async';
 
 /* ───────────────────── PALETTE ───────────────────── */
 
@@ -19,7 +22,7 @@ const Color kRose = Color(0xFFB4575E); // dusty ruby;
 
 // ───────────────────── LINKS / EXTERNAL URLS ─────────────────────
 
-// On web, this will open the bundled asset PDF at /assets/cv/paradero_cv.pdf
+// Kept for reference; actual CV download uses downloadCvAsset()
 const String kCvUrl = 'assets/cv/paradero_cv.pdf';
 const String kGithubProfileUrl = 'https://github.com/rhaleighp15';
 
@@ -170,7 +173,8 @@ class _PortfolioPageState extends State<PortfolioPage> {
                       HeroSection(
                         isWide: isWide,
                         onViewProjects: () => _scrollTo(_projectsKey),
-                        onDownloadCv: () => openLink(kCvUrl),
+                        // 🔽 use asset download for CV
+                        onDownloadCv: downloadCvAsset,
                       ),
                       const SizedBox(height: 40),
                       _SectionWrapper(
@@ -3216,10 +3220,22 @@ class _HoverCardState extends State<HoverCard> {
 /* ───────────────────── LINK HELPERS ───────────────────── */
 
 Future<void> openLink(String url) async {
-  final uri = Uri.parse(url);
-  final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
+  Uri uri;
+
+  // For web, resolve asset-like paths to full URL; for normal links, just parse
+  if (kIsWeb && (url.startsWith('assets/') || url.startsWith('/assets/'))) {
+    uri = Uri.base.resolve(url);
+  } else {
+    uri = Uri.parse(url);
+  }
+
+  final ok = await launchUrl(
+    uri,
+    mode: LaunchMode.platformDefault,
+    webOnlyWindowName: kIsWeb ? '_blank' : null,
+  );
   if (!ok) {
-    debugPrint('Could not launch $url');
+    debugPrint('Could not launch $uri');
   }
 }
 
@@ -3236,5 +3252,30 @@ Future<void> sendEmail(String email, {String? subject, String? body}) async {
   final ok = await launchUrl(uri);
   if (!ok) {
     debugPrint('Could not launch email client for $email');
+  }
+}
+
+/// Download the CV as an asset (web: forces download via hidden <a>, others: fallback open)
+Future<void> downloadCvAsset() async {
+  const assetPath = 'assets/cv/paradero_cv.pdf';
+
+  if (kIsWeb) {
+    // Resolve to full URL (handles /#/ routes etc.)
+    final url = Uri.base.resolve(assetPath).toString();
+
+    final anchor = html.AnchorElement(href: url)
+      ..download = 'Marianne_Rhaleigh_Paradero_CV.pdf'
+      ..target = '_blank';
+
+    html.document.body?.append(anchor);
+    anchor.click();
+    anchor.remove();
+  } else {
+    // If you ever build for mobile/desktop, this will open the PDF
+    final uri = Uri.parse(assetPath);
+    final ok = await launchUrl(uri, mode: LaunchMode.platformDefault);
+    if (!ok) {
+      debugPrint('Could not launch $uri');
+    }
   }
 }
