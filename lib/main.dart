@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 import 'dart:async';
-import 'dart:html' as html; // web-only (ok for Flutter web builds)
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -174,7 +173,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
                       HeroSection(
                         isWide: isWide,
                         onViewProjects: () => _scrollTo(_projectsKey),
-                        // now uses GitHub CV download
+                        // now uses GitHub CV open (new tab / external viewer)
                         onDownloadCv: downloadCvAsset,
                       ),
                       const SizedBox(height: 40),
@@ -3256,25 +3255,17 @@ Future<void> sendEmail(String email, {String? subject, String? body}) async {
   }
 }
 
-/// Download / open the CV hosted on GitHub (raw PDF)
+/// Open the CV hosted on GitHub (raw PDF) – opens new tab on web, external viewer elsewhere
 Future<void> downloadCvAsset() async {
-  const fileName = 'Marianne_Rhaleigh_Paradero_CV.pdf';
+  final uri = Uri.parse(kCvUrl);
 
-  if (kIsWeb) {
-    // Force a download in the browser via a hidden <a> tag
-    final anchor = html.AnchorElement(href: kCvUrl)
-      ..download = fileName
-      ..target = '_blank'; // some browsers may open in new tab
+  final ok = await launchUrl(
+    uri,
+    mode: LaunchMode.platformDefault,
+    webOnlyWindowName: kIsWeb ? '_blank' : null,
+  );
 
-    html.document.body?.append(anchor);
-    anchor.click();
-    anchor.remove();
-  } else {
-    // Non-web platforms: just open the PDF in an external app
-    final uri = Uri.parse(kCvUrl);
-    final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
-    if (!ok) {
-      debugPrint('Could not launch $uri');
-    }
+  if (!ok) {
+    debugPrint('Could not launch $uri');
   }
 }
