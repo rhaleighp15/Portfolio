@@ -1230,7 +1230,7 @@ class _ProjectsSection extends StatelessWidget {
           'Information System',
           '402nd CDC',
         ],
-        role: 'Front-end / UI/UX Designer',
+        role: 'Front-end Developer • UI/UX Designer',
         timeframe: 'May 2025 • Capstone system',
         caseStudyUrl: 'https://resforce.info',
         gallery: [
@@ -1255,7 +1255,7 @@ class _ProjectsSection extends StatelessWidget {
         description:
             'An online permit processing system for students and offices, streamlining event and activity requests, approvals, and documentation.',
         tags: ['Web app', 'Tracking', 'LPU-Cavite', 'Permit System'],
-        role: 'UI/UX Designer • Front-end Support',
+        role: 'UI/UX Designer • Full-stack Developer',
         timeframe: '2024 • Academic project',
         caseStudyUrl: null,
         gallery: [
@@ -1280,7 +1280,7 @@ class _ProjectsSection extends StatelessWidget {
         description:
             'An inventory management interface designed to help track stocks, movements, and low-quantity alerts for small businesses and organizations.',
         tags: ['Inventory', 'Bulk Import/Export', 'Web app'],
-        role: 'UI/UX Designer',
+        role: 'UI/UX Designer • Full-stack Developer',
         timeframe: '2023 • Academic prototype',
         caseStudyUrl: null,
         gallery: [
@@ -1315,7 +1315,7 @@ class _ProjectsSection extends StatelessWidget {
         description:
             'A concept platform for pet owners and clinics with QR-tagged pet profiles, vet visit tracking, and lost-and-found coordination flows.',
         tags: ['Web app', 'Pet Care', 'Prototype'],
-        role: 'Product / UI/UX Designer',
+        role: 'Product • UI/UX Designer',
         timeframe: '2025 • Technopreneurship project',
         caseStudyUrl: null,
         gallery: [
@@ -1347,7 +1347,7 @@ class _ProjectsSection extends StatelessWidget {
         description:
             'A concept math learning experience with playful UI, progress tracking, and problem sets for students.',
         tags: ['Mobile app', 'Learning', 'Concept'],
-        role: 'Product / UI/UX Designer',
+        role: 'Product • UI/UX Designer',
         timeframe: '2024 • Personal project',
         caseStudyUrl: null,
         gallery: [
@@ -1377,7 +1377,7 @@ class _ProjectsSection extends StatelessWidget {
         description:
             'Food ordering app concept with simple navigation, product cards, and cart flow for small local businesses.',
         tags: ['Mobile app', 'E-commerce', 'Concept'],
-        role: 'Product / UI/UX Designer',
+        role: 'Product • UI/UX Designer',
         timeframe: '2023 • Personal project',
         caseStudyUrl: null,
         gallery: [
@@ -1404,7 +1404,7 @@ class _ProjectsSection extends StatelessWidget {
         description:
             'A sign language learning app featuring animated video tutorials, gesture-tracking practice, and interactive quizzes to help users learn and reinforce ASL & FSL basics.',
         tags: ['Mobile app', 'UX Flows', 'Concept'],
-        role: 'Product / UI/UX Designer',
+        role: 'Product • UI/UX Designer',
         timeframe: '2025 • Personal project',
         caseStudyUrl: null,
         gallery: [
