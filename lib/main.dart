@@ -3080,7 +3080,16 @@ class _ContactSection extends StatelessWidget {
                             ),
                             OutlinedButton.icon(
                               onPressed: () {
-                                openLink(kGithubProfileUrl);
+                                openLink(
+                                  'https://github.com/rhaleighp15/RhaleighParadero-CV/blob/main/paradero_cv.pdf',
+                                );
+                              },
+                              icon: const Icon(Icons.description_rounded, size: 18),
+                              label: const Text('View CV on Github'),
+                            ),
+                            OutlinedButton.icon(
+                              onPressed: () {
+                                openLink('https://github.com/rhaleighp15');
                               },
                               icon: const Icon(Icons.link_rounded, size: 18),
                               label: const Text('View Github profile'),
@@ -3288,5 +3297,7 @@ Future<void> sendEmail(String email, {String? subject, String? body}) async {
 
 /// Open the CV repo on GitHub
 Future<void> downloadCvAsset() async {
-  await openLink(kCvUrl);
+  await openLink(
+    'https://github.com/rhaleighp15/RhaleighParadero-CV/blob/main/paradero_cv.pdf',
+  );
 }
