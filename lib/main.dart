@@ -170,10 +170,8 @@ class _PortfolioPageState extends State<PortfolioPage> {
                     children: [
                       _TopNav(isWide: isWide, onNavTap: _onNavTap),
                       const SizedBox(height: 30),
-                      HeroSection(
-                        isWide: isWide,
-                        onViewProjects: () => _scrollTo(_projectsKey),
-                        onDownloadCv: downloadCvAsset,
+                      const HeroSection(
+                        isWide: true,
                       ),
                       const SizedBox(height: 40),
                       _SectionWrapper(
@@ -668,13 +666,9 @@ class _NavItemState extends State<_NavItem> {
 
 class HeroSection extends StatefulWidget {
   final bool isWide;
-  final VoidCallback? onViewProjects;
-  final VoidCallback? onDownloadCv;
 
   const HeroSection({
     required this.isWide,
-    this.onViewProjects,
-    this.onDownloadCv,
     super.key,
   });
 
@@ -733,9 +727,8 @@ class _HeroSectionState extends State<HeroSection>
                       final crossAxis = alignLeft
                           ? CrossAxisAlignment.start
                           : CrossAxisAlignment.center;
-                      final textAlign = alignLeft
-                          ? TextAlign.left
-                          : TextAlign.center;
+                      final textAlign =
+                          alignLeft ? TextAlign.left : TextAlign.center;
 
                       return Column(
                         crossAxisAlignment: crossAxis,
@@ -789,30 +782,6 @@ class _HeroSectionState extends State<HeroSection>
                                   color: kParchment.withOpacity(0.92),
                                 ),
                               ),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          ScrollFadeIn(
-                            delay: const Duration(milliseconds: 280),
-                            child: Wrap(
-                              spacing: 12,
-                              runSpacing: 12,
-                              alignment: alignLeft
-                                  ? WrapAlignment.start
-                                  : WrapAlignment.center,
-                              children: [
-                                ElevatedButton.icon(
-                                  onPressed: () =>
-                                      widget.onViewProjects?.call(),
-                                  icon: const Icon(Icons.grid_view_rounded),
-                                  label: const Text('View Academic Projects'),
-                                ),
-                                OutlinedButton.icon(
-                                  onPressed: () => openLink(kCvUrl),
-                                  icon: const Icon(Icons.description),
-                                  label: const Text('View CV on GitHub'),
-                                ),
-                              ],
                             ),
                           ),
                           const SizedBox(height: 18),
@@ -891,7 +860,8 @@ class _HeroSectionState extends State<HeroSection>
                             ),
                             _FloatingCharmPainted(
                               right: -12,
-                              bottom: 20 + math.sin(charmPhase * 0.7) * 12,
+                              bottom:
+                                  20 + math.sin(charmPhase * 0.7) * 12,
                               icon: Icons.circle,
                               size: 14,
                               color: kLeaf,
@@ -932,7 +902,8 @@ class _HeroSectionState extends State<HeroSection>
                                         'Marianne Rhaleigh G. Paradero',
                                         style: GoogleFonts.nunito(
                                           fontSize: 12,
-                                          color: kParchment.withOpacity(0.75),
+                                          color: kParchment
+                                              .withOpacity(0.75),
                                         ),
                                       ),
                                     ],
