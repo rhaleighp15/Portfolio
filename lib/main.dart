@@ -1231,7 +1231,7 @@ class _ProjectsSection extends StatelessWidget {
           '402nd CDC',
         ],
         role: 'Front-end / UI/UX Designer',
-        timeframe: '2024 • Capstone system',
+        timeframe: 'May 2025 • Capstone system',
         caseStudyUrl: 'https://resforce.info',
         gallery: [
           'assets/resforce/resforce_1.png',
@@ -1316,7 +1316,7 @@ class _ProjectsSection extends StatelessWidget {
             'A concept platform for pet owners and clinics with QR-tagged pet profiles, vet visit tracking, and lost-and-found coordination flows.',
         tags: ['Web app', 'Pet Care', 'Prototype'],
         role: 'Product / UI/UX Designer',
-        timeframe: '2024 • Personal project',
+        timeframe: '2025 • Technopreneurship project',
         caseStudyUrl: null,
         gallery: [
           'assets/pawcentral/pawcentral_1.png',
@@ -1378,7 +1378,7 @@ class _ProjectsSection extends StatelessWidget {
             'Food ordering app concept with simple navigation, product cards, and cart flow for small local businesses.',
         tags: ['Mobile app', 'E-commerce', 'Concept'],
         role: 'Product / UI/UX Designer',
-        timeframe: '2024 • Personal project',
+        timeframe: '2023 • Personal project',
         caseStudyUrl: null,
         gallery: [
           'assets/pizzame/pizzame_1.png',
@@ -1405,7 +1405,7 @@ class _ProjectsSection extends StatelessWidget {
             'A sign language learning app featuring animated video tutorials, gesture-tracking practice, and interactive quizzes to help users learn and reinforce ASL & FSL basics.',
         tags: ['Mobile app', 'UX Flows', 'Concept'],
         role: 'Product / UI/UX Designer',
-        timeframe: '2024 • Personal project',
+        timeframe: '2025 • Personal project',
         caseStudyUrl: null,
         gallery: [
           'assets/ninjahands/1.png',
@@ -1538,7 +1538,41 @@ class ProjectCard extends StatelessWidget {
               color: kDeepGreen,
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 4),
+
+          // NEW: timeframe + role under title
+          if (data.timeframe != null || data.role != null) ...[
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (data.timeframe != null) ...[
+                  Icon(Icons.calendar_today_rounded,
+                      size: 12, color: kText.withOpacity(0.6)),
+                  const SizedBox(width: 4),
+                  Text(
+                    data.timeframe!,
+                    style: GoogleFonts.nunito(
+                      fontSize: 11,
+                      color: kText.withOpacity(0.75),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            if (data.role != null) ...[
+              const SizedBox(height: 2),
+              Text(
+                data.role!,
+                style: GoogleFonts.nunito(
+                  fontSize: 11,
+                  fontStyle: FontStyle.italic,
+                  color: kText.withOpacity(0.8),
+                ),
+              ),
+            ],
+            const SizedBox(height: 8),
+          ],
+
           Text(
             data.description,
             style: GoogleFonts.nunito(
@@ -1638,13 +1672,39 @@ void _showProjectGalleryDialog(BuildContext context, ProjectCardData data) {
                     Row(
                       children: [
                         Expanded(
-                          child: Text(
-                            data.title,
-                            style: GoogleFonts.nunito(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: kDeepGreen,
-                            ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data.title,
+                                style: GoogleFonts.nunito(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: kDeepGreen,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              if (data.timeframe != null ||
+                                  data.role != null) ...[
+                                if (data.timeframe != null)
+                                  Text(
+                                    data.timeframe!,
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 11,
+                                      color: kText.withOpacity(0.75),
+                                    ),
+                                  ),
+                                if (data.role != null)
+                                  Text(
+                                    data.role!,
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 11,
+                                      fontStyle: FontStyle.italic,
+                                      color: kText.withOpacity(0.8),
+                                    ),
+                                  ),
+                              ],
+                            ],
                           ),
                         ),
                         IconButton(
@@ -1844,6 +1904,7 @@ void _showZoomImageDialog(
     },
   );
 }
+
 
 /* ───────────────────── EXPERIENCE ───────────────────── */
 
