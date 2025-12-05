@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 import 'dart:async';
-import 'dart:html' as html; // web-only (ok for Flutter web builds)
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -22,8 +21,10 @@ const Color kRose = Color(0xFFB4575E); // dusty ruby;
 
 // ───────────────────── LINKS / EXTERNAL URLS ─────────────────────
 
-// Kept for reference; actual CV download uses downloadCvAsset()
-const String kCvUrl = 'assets/cv/paradero_cv.pdf';
+// Public GitHub URL where your CV is hosted
+const String kCvGithubUrl =
+    'https://raw.githubusercontent.com/rhaleighp15/RhaleighParadero-CV/main/paradero_cv.pdf';
+
 const String kGithubProfileUrl = 'https://github.com/rhaleighp15';
 
 void main() {
@@ -173,8 +174,8 @@ class _PortfolioPageState extends State<PortfolioPage> {
                       HeroSection(
                         isWide: isWide,
                         onViewProjects: () => _scrollTo(_projectsKey),
-                        // 🔽 use asset download for CV
-                        onDownloadCv: downloadCvAsset,
+                        // now open the CV from GitHub
+                        onDownloadCv: () => openLink(kCvGithubUrl),
                       ),
                       const SizedBox(height: 40),
                       _SectionWrapper(
@@ -845,7 +846,7 @@ class _HeroSectionState extends State<HeroSection>
                                         onTap: () {
                                           _showZoomImageDialog(
                                             context,
-                                            'assets/profile/rhaleigh.png',
+                                            'assets/profile/rhaleighp.png',
                                             caption:
                                                 'Marianne Rhaleigh G. Paradero',
                                           );
@@ -3252,30 +3253,5 @@ Future<void> sendEmail(String email, {String? subject, String? body}) async {
   final ok = await launchUrl(uri);
   if (!ok) {
     debugPrint('Could not launch email client for $email');
-  }
-}
-
-/// Download the CV as an asset (web: forces download via hidden <a>, others: fallback open)
-Future<void> downloadCvAsset() async {
-  const assetPath = 'assets/cv/paradero_cv.pdf';
-
-  if (kIsWeb) {
-    // Resolve to full URL (handles /#/ routes etc.)
-    final url = Uri.base.resolve(assetPath).toString();
-
-    final anchor = html.AnchorElement(href: url)
-      ..download = 'Marianne_Rhaleigh_Paradero_CV.pdf'
-      ..target = '_blank';
-
-    html.document.body?.append(anchor);
-    anchor.click();
-    anchor.remove();
-  } else {
-    // If you ever build for mobile/desktop, this will open the PDF
-    final uri = Uri.parse(assetPath);
-    final ok = await launchUrl(uri, mode: LaunchMode.platformDefault);
-    if (!ok) {
-      debugPrint('Could not launch $uri');
-    }
   }
 }
