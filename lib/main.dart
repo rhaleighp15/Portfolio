@@ -23,7 +23,7 @@ const Color kRose = Color(0xFFB4575E); // dusty ruby;
 
 // CV repo on GitHub (page, not raw PDF)
 const String kCvUrl =
-    'https://github.com/rhaleighp15/RhaleighParadero-CV/blob/main/paradero_cv.pdf';
+    'https://github.com/rhaleighp15/RhaleighParadero-CV/blob/cd1599dcbbbfa11bf9d8333ee6a4270e5b8e704c/Paradero_MarianneRhaleighG_CV.pdf';
 const String kGithubProfileUrl = 'https://github.com/rhaleighp15';
 
 void main() {
