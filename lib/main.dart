@@ -23,7 +23,7 @@ const Color kRose = Color(0xFFB4575E); // dusty ruby;
 
 // CV repo on GitHub (page, not raw PDF)
 const String kCvUrl =
-    'https://github.com/rhaleighp15/RhaleighParadero-CV/blob/cd1599dcbbbfa11bf9d8333ee6a4270e5b8e704c/Paradero_MarianneRhaleighG_CV.pdf';
+    'https://github.com/rhaleighp15/RhaleighParadero-CV/blob/main/Paradero_MarianneRhaleighG_CV.pdf';
 const String kGithubProfileUrl = 'https://github.com/rhaleighp15';
 
 void main() {
@@ -3142,7 +3142,7 @@ class _ContactSection extends StatelessWidget {
                             OutlinedButton.icon(
                               onPressed: () {
                                 openLink(
-                                  'https://github.com/rhaleighp15/RhaleighParadero-CV/blob/cd1599dcbbbfa11bf9d8333ee6a4270e5b8e704c/Paradero_MarianneRhaleighG_CV.pdf',
+                                  'https://github.com/rhaleighp15/RhaleighParadero-CV/blob/main/Paradero_MarianneRhaleighG_CV.pdf',
                                 );
                               },
                               icon: const Icon(Icons.description_rounded, size: 18),
@@ -3359,6 +3359,6 @@ Future<void> sendEmail(String email, {String? subject, String? body}) async {
 /// Open the CV repo on GitHub
 Future<void> downloadCvAsset() async {
   await openLink(
-    'https://github.com/rhaleighp15/RhaleighParadero-CV/blob/cd1599dcbbbfa11bf9d8333ee6a4270e5b8e704c/Paradero_MarianneRhaleighG_CV.pdf',
+    'https://github.com/rhaleighp15/RhaleighParadero-CV/blob/main/Paradero_MarianneRhaleighG_CV.pdf',
   );
 }
